@@ -54,7 +54,16 @@ for f in flight_ids:
 
 # Maintenance requirement
 for a in aircraft_ids:
-    problem += lpSum([maintenance_dict[a, t] for t in range(schedule_length)]) == 4  # Minimum 3 hours maintenance
+    problem += lpSum([maintenance_dict[a, t] for t in range(schedule_length)]) == 3  # Minimum 3 hours maintenance
+
+# Maximum maintenance capacity
+max_maintenance_capacity = 2
+
+# Each time step should have at most max_maintenance in maintenance
+for t in range(schedule_length):
+    problem += lpSum([maintenance_dict[(a, t)] for a in aircraft_ids]) <= max_maintenance_capacity
+
+
 
 # Solve the problem
 problem.solve()
